@@ -1,0 +1,76 @@
+# Compresor scroll hermético Copeland ZE49KME-TFM, R-32 — cap. 13 (H5).
+# Fuente: Copeland Select 8 (v8.38.2.5260, datos 9,80/46114), 05/10/2026:
+# `Compresor_Copeland_ZE49KME-TFM_R32_ficha.pdf` y `..._punto.pdf`; puntos en
+# `compresor_r32_catalogo.csv`. Sin temperaturas de descarga (decisión 8 del 05/10/2026).
+id: copeland_ze49kme_tfm_r32
+tipo: scroll_hermetico
+fluido: R32
+identificacion_vigente: identificacion_2026_10_05
+
+# --- MODELO DEL COMPRESOR (decisión P2 del 15/10/2026): polinomios de UNE-EN 12900 en caudal y
+# potencia eléctrica, ajustados a los 86 puntos de Select 8 (5 K, una velocidad). Select 8 no da
+# la descarga (decisión 8 del 05/10/2026): su rendimiento de descarga se toma del semiempírico
+# identificado el 05/10/2026, declarado como tal.
+modelo_compresor: en12900
+modelo_en12900:
+  fuente: catalogo_fichero
+  fichero_puntos: compresor_r32
+  recalentamiento_ref_K: 5.0
+  # Cilindrada del compresor de los datos: el rendimiento volumétrico se deduce con ella.
+  # Escalar `geometria.volumen_barrido_m3_rev` (igualación de capacidad, tabla 6.6) escala
+  # caudal y potencia con los mismos rendimientos.
+  volumen_barrido_datos_m3_rev: 4.1954e-5
+  grado_velocidad: 0
+  descarga: semiempirico
+  ajuste:
+    factor_caudal: 1.0
+    factor_potencia: 1.0
+    desplazamiento_descarga_K: 0.0
+
+geometria:
+  # 7,30 m³/h a 50 Hz; velocidad de un motor asíncrono de dos polos a 50 Hz, 2900 rpm
+  # (el producto volumen por velocidad es el dato; el reparto no cambia el modelo).
+  volumen_barrido_m3_rev: 4.1954e-5
+
+operacion:
+  velocidad_nominal_rpm: 2900
+  p_max_baja_Pa: 2.8e+6           # 28 bar, MANOMÉTRICA (ficha, p. 3)
+  p_max_alta_Pa: 4.35e+6          # 43,5 bar, MANOMÉTRICA
+  peso_kg: 30.4
+
+limites:
+  presiones_manometricas: true
+  T_descarga_max_K: null          # la ficha no la publica
+  diagrama_aplicacion:
+    procedencia: "fabricante (Select 8, p. 1), digitalizado (±1 K); izquierda con 10 K de recalentamiento"
+    sin_limites_C:
+      - [-25.0, 10.0]
+      - [-5.0, 10.0]
+      - [15.0, 30.0]
+      - [15.0, 65.0]
+      - [5.0, 65.0]
+      - [-25.0, 35.0]
+
+transmision:
+  eta_motor: 1.0
+  eta_transmision: 1.0
+  procedencia: "hermético: pérdidas del motor dentro de los parámetros identificados"
+
+parametros_identificados:
+  n_politropico: 1.30
+
+identificacion_2026_10_05:   # cuaderno 09, decision 11 del 05/10/2026 (dominio de uso, pared adiabatica)
+  AU_su_n_W_K: 0.00100001
+  AU_ex_n_W_K: 211.438
+  AU_amb_W_K: 1
+  A_leak_m2: 0
+  C: 0.0221762
+  alpha: 0.0549281
+  W_loss_0_W: 229.316
+  r_v: 2.06219
+  eta_ic: 0.760576
+  contraste:   # sobre los 40 puntos de identificacion
+    caudal_max_desviacion: 0.1083
+    potencia_max_desviacion: 0.0364
+    T_descarga_max_K: null   # sin dato (decision 8)
+    exceso_sobre_adiabatica_max_K: 4.53

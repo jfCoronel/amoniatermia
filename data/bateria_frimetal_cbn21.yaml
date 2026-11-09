@@ -1,0 +1,296 @@
+# Batería de aire Frimetal CBN-21 ESPECIAL (aleta de aluminio / tubo de acero inoxidable)
+# Fuente: capítulo 9, §9.7. Ficha de selección del fabricante de 16/03/2026.
+# Unidades: SI estricto.
+
+id: frimetal_cbn21_especial
+restriccion_material: RS-1        # aluminio + inoxidable; sin cobre
+material_aleta: aluminio
+material_tubo: acero_inoxidable
+conductividad_tubo_W_mK: 15.0     # serie austenítica — PENDIENTE de confirmar composición
+conductividad_aleta_W_mK: 200.0
+
+geometria:
+  paso_transversal_m: 0.040       # St
+  paso_longitudinal_m: 0.03464    # Sl = St * cos(30) -> tresbolillo equilátero
+  disposicion: tresbolillo_equilatero
+  tipo_aleta: lisa
+  longitud_bateria_m: 0.800
+  tubos_por_rango: 20
+  n_rangos: 2
+  tubos_saltados: 0
+  paso_aleta_m: 0.00210
+  espesor_aleta_m: 0.00010
+  n_circuitos: 2
+  diametro_exterior_m: 0.0133
+  diametro_interior_m: 0.0123
+
+# --- Magnitudes declaradas por el fabricante ---
+declarado:
+  area_intercambio_m2: 39.31
+  volumen_interno_m3: 3.8e-3
+  U_global_W_m2K: 43.0
+
+# --- Reconstrucción propia (§9.7.1, §9.7.1). Verificada frente a la ficha. ---
+reconstruido:
+  longitud_total_tubo_m: 32.0     # 20 tubos x 2 rangos x 0.800 m
+  n_aletas: 381
+  area_aleta_m2: 37.99
+  area_tubo_desnudo_m2: 1.27
+  area_total_m2: 39.27            # ficha 39.31 -> -0.1 %
+  volumen_interno_m3: 3.80e-3     # ficha 3.8 L
+  relacion_area_ext_int: 31.8
+  fraccion_area_libre_sigma: 0.6357
+
+# --- Punto de ficha como CONDENSADOR (16/03/2026). Ancla el lado de aire (§9.7.3). ---
+punto_ficha_condensador:
+  refrigerante: Ammonia
+  T_cond_C: 45.0
+  caudal_refrigerante_kg_h: 41.0
+  velocidad_masica_kg_m2s: 48.0   # reconstruida: 47.9
+  subenfriamiento_K: 0.0
+  desrecalentamiento_K: 0.0
+  capacidad_W: 12228
+  LMTD_K: 7.28
+  h_refrigerante_W_m2K: 5200
+  perdida_carga_refrigerante_Pa: 2622.47
+  aire:
+    caudal_m3_h: 7600
+    caudal_masico_kg_h: 8613
+    velocidad_frontal_m_s: 3.30
+    velocidad_maxima_m_s: 5.19
+    T_in_C: 35.0
+    T_out_C: 39.9
+    HR_in: 0.50
+    humedad_especifica_in_kg_kg: 0.01780
+    humedad_especifica_out_kg_kg: 0.01780   # superficie seca confirmada
+    h_aire_W_m2K: 113
+    perdida_carga_Pa: 42          # SOLO la batería; no incluye envolvente ni rejilla
+    Re_Dc: 4190
+
+# --- Punto de ficha como EVAPORADOR (26/03/2026). SOLO VALIDACIÓN. ---
+# DECISIÓN DEL AUTOR, 28/09/2026: se emplea como fuente de VALIDACIÓN (N2 de la
+# tabla 6.5) y no para anclar nada. Es la primera fuente de la batería que el
+# modelo no reproduce por construcción. No se pedirán más selecciones.
+#
+# Evaporador A BOMBA, relación de recirculación 3: sale con título 1/3, no
+# recalentado. La ficha no dice el estado de entrada; con 26 kg/h, 2999 W y
+# h_lv(4 °C) = 1247.4 kJ/kg el título de salida es 0.333 exactamente si entra
+# líquido saturado, y así se toma (DEDUCIDO, no leído). Superficie SECA: el aire
+# entra a 7 °C y 75 % (rocío 2.9 °C) y la ficha da latente nulo.
+#
+# Lo que NO cubre: título alto, tramo recalentado y superficie húmeda, que es
+# donde la operación de expansión seca de M-3, M-4 y M-5 es más incierta.
+# Tampoco da los coeficientes parciales, de modo que no separa el -11 % de la
+# conductancia en condensación entre aleta y coeficiente interior.
+#
+# Las «velocidades nominal / real» de la ficha (gas 2.53 / 1.26, líquido
+# 0.05 / 0.04 m/s) son superficiales, a la salida y medias: no informan de la
+# fracción de huecos.
+punto_ficha_evaporador:
+  uso: validacion
+  tipo_operacion: evaporador_a_bomba
+  relacion_recirculacion: 3
+  refrigerante: Ammonia
+  T_evap_C: 4.0
+  titulo_entrada: 0.0             # DEDUCIDO (ver arriba)
+  caudal_refrigerante_kg_h: 26.0
+  velocidad_masica_kg_m2s: 30.0   # reconstruida: 30.4
+  capacidad_W: 2999
+  capacidad_latente_W: 0
+  U_global_W_m2K: 32.0
+  LMTD_K: 2.4
+  perdida_carga_refrigerante_Pa: 1100.015
+  coeficientes_parciales: null    # la ficha no los da y no se solicitarán
+  aire:
+    caudal_m3_h: 7600
+    caudal_masico_kg_h: 9549
+    velocidad_frontal_m_s: 3.30
+    densidad_kg_m3: 1.26
+    T_in_C: 7.0
+    HR_in: 0.75
+    humedad_especifica_in_kg_kg: 0.00460
+    T_out_C: 5.9
+    HR_out: 0.809
+    humedad_especifica_out_kg_kg: 0.00460   # superficie seca
+    perdida_carga_Pa: 58          # 42 Pa como condensador: +38 % (la densidad
+                                  # solo explica +12 %)
+
+# --- Correlación del lado de aire anclada sobre el punto de ficha (§9.7.3) ---
+correlacion_aire:
+  forma: 'j = C1 * Re_Dc^C2'
+  C1: 0.507                       # ajustado sobre el único punto disponible
+  C2: -0.42                       # FIJADO A PRIORI desde la literatura, no identificado
+  Re_validez: [4190, 5512]        # condensación -> perfil frío: 32 % de extrapolación
+  # AVISO: un solo punto no permite determinar dos constantes. Ver §9.7.3.
+
+# --- Resultados de referencia del modelo (§9.7.4, §9.7.6) ---
+referencia_modelo:
+  radio_equivalente_aleta_m: 0.02125
+  altura_aleta_efectiva_m: 0.0146
+  eficiencia_aleta_seca: 0.447
+  efectividad_superficial_seca: 0.465
+  eficiencia_aleta_humeda: 0.337
+  efectividad_superficial_humeda: 0.358
+  # b' = dh_sat/dT, ec. 9-29. El §9.7.6 lo declara «a T_s ~ 1 °C», pero 1781
+  # es el valor a 1.6 °C, que es la T_evap de la primera fila de la tabla 9.20,
+  # no la de la superficie (que en ese punto está a ~3 °C, donde b' = 1854). El
+  # modelo lo evalúa en la superficie, como manda la propia ec. 9-29.
+  # Consecuencia sobre el resultado: ninguna (0.337 -> 0.336). Ver
+  # `psychrometrics.saturation_enthalpy_slope`. Anotado para la reescritura.
+  pendiente_entalpia_saturacion_J_kgK: 1781   # b' a 1.6 °C (no a T_s)
+
+  reparto_resistencias_m2K_W:
+    aire: 0.01905                 # 72.8 %
+    pared: 0.00102                # 3.9 %  (con cobre sería 0.15 %)
+    refrigerante: 0.00611         # 23.3 %
+    total: 0.02618
+  U_reconstruida_W_m2K: 38.2      # ficha 43 -> -11 %, sesgo conocido y conservador
+
+# --- Operación como evaporador de EXPANSIÓN SECA, tabla 9.20 (§9.7.8) ---
+# Predicción, no dato. El único punto de fabricante como evaporador es a bomba y
+# seco (punto_ficha_evaporador): valida la zona de título bajo, no la húmeda ni
+# la recalentada que gobiernan estos valores.
+prediccion_evaporador:
+  advertencia: >
+    No validada. Descansa sobre la correlación de aire anclada en el régimen
+    opuesto, sobre una correlación de ebullición fuera de su base experimental
+    en cuanto al fluido, y sobre superficie limpia sin escarcha.
+  nominal_EN14511:
+    T_aire_bs_C: 7.0
+    T_aire_bh_C: 6.0
+    T_evap_C: 1.6
+    U_W_m2K: 27.9
+    Q_evap_W: 10030
+    Q_cond_W: 13210
+    COP: 4.16
+    # h_refrigerante que ESTE U implica con la efectividad superficial húmeda
+    # del modelo (0.358) y el h_aire anclado a 7 °C (116.2 W/m²K): ~2900 W/m²K.
+    # RESUELTO con C4: es Cooper SOLO (3133 W/m²K), no la ec. 9-26 completa.
+    h_refrigerante_implicito_W_m2K: 2912
+  a_2C:
+    T_aire_bs_C: 2.0
+    T_aire_bh_C: 1.0
+    T_evap_C: -2.9
+    U_W_m2K: 27.3
+    Q_evap_W: 8360
+    Q_cond_W: 11350
+    COP: 3.79
+  perfil_frio:
+    T_aire_bs_C: -7.0
+    T_aire_bh_C: -8.0
+    T_evap_C: -11.1
+    U_W_m2K: 25.6
+    Q_evap_W: 5840
+    Q_cond_W: 8410
+    COP: 3.27
+
+  # --- Coeficiente de ebullición publicado en el §9.7.5 --------------------
+  # «del orden de 3100 W/(m²·K) en la condición nominal de calefacción,
+  # descendiendo a 1900 W/(m²·K) en la condición del perfil frío».
+  #
+  # HALLAZGO DE C4: esas dos cifras son COOPER SOLO —el término nucleado sin
+  # superposición—, no la ec. 9-26/27 que el mismo apartado declara adoptar.
+  # El modelo reproduce 3133 y 1895 con `cooper_solo`; con `gungor_winterton`
+  # obtiene 5300-7800 y 3200-7200 respectivamente. La columna U de la tabla
+  # 9.20 confirma la lectura: 27.9 / 27.3 / 25.6 frente a 27.0 / 26.0 / 24.7
+  # del modelo con Cooper solo, y 33.1 / 33.2 / 37.1 con la ec. 9-26 completa.
+  h_ebullicion_publicado_W_m2K:
+    nominal: 3100                 # modelo con `cooper_solo`: 3133
+    perfil_frio: 1900             # modelo con `cooper_solo`: 1895
+    procedencia: cooper_solo      # NO la ec. 9-26/27 declarada en el apartado
+
+# --- Equilibrio batería-compresor como evaporador (resultado del modelo) -----
+# Lo que la tabla 9.20 NO resuelve: que la temperatura de evaporación sea la
+# que iguala lo que el compresor aspira con lo que la batería puede evacuar.
+# La tabla la IMPONE y reporta la capacidad del compresor a esa temperatura.
+# Condensación a 50 °C, recalentamiento 1 K, superficie limpia.
+equilibrio_evaporador:
+  advertencia: >
+    Resultado del modelo, no del capítulo. No validado: ninguna correlación de
+    las que intervienen tiene amoníaco en su base experimental.
+  correlacion_principal: gungor_winterton     # ec. 9-26/27, la que declara el §9.7.5
+  # REMEDIDO el 25/09/2026 con el compresor reidentificado el 24/09/2026
+  # (antes: 0.88 / 8538 / 4.06 / 33.1; -3.51 / 6909 / 3.55 / 33.2;
+  # -11.18 / 4563 / 2.80 / 37.1).
+  gungor_winterton:
+    nominal_EN14511: {T_evap_C: 0.82, Q_evap_W: 8496, Q_cond_W: 10932, COP: 4.05, U_W_m2K: 32.7}
+    a_2C:            {T_evap_C: -3.54, Q_evap_W: 6884, Q_cond_W: 9210, COP: 3.52, U_W_m2K: 33.0}
+    perfil_frio:     {T_evap_C: -11.24, Q_evap_W: 4538, Q_cond_W: 6606, COP: 2.75, U_W_m2K: 36.4}
+  # Columna IMPUESTA de la tabla 9.20 con el compresor adoptado: capacidad del
+  # compresor a la T_evap que la tabla fija, condensacion a 50 C, 1 K de
+  # recalentamiento. La v30 publica 10030 / 8360 / 5840 W, que son de la revision
+  # previa. Con estos valores la diferencia entre imponer y resolver es del
+  # 1-4 %, no del 12-22 % que dice el §9.7.8.
+  impuesta_modelo:
+    nominal_EN14511: {T_evap_C: 1.6, Q_evap_W: 8828, COP: 4.15}
+    a_2C:            {T_evap_C: -2.9, Q_evap_W: 7127, COP: 3.59}
+    perfil_frio:     {T_evap_C: -11.1, Q_evap_W: 4587, COP: 2.76}
+  cooper_solo:
+    nominal_EN14511: {T_evap_C: -0.26, Q_evap_W: 8093, Q_cond_W: 10480, COP: 3.92, U_W_m2K: 27.0}
+    a_2C:            {T_evap_C: -4.58, Q_evap_W: 6547, Q_cond_W: 8814, COP: 3.43, U_W_m2K: 26.0}
+    perfil_frio:     {T_evap_C: -12.33, Q_evap_W: 4260, Q_cond_W: 6250, COP: 2.70, U_W_m2K: 24.7}
+
+# --- Ventilador: consumo CONSTANTE (decisión del autor, 17/09/2026) ---
+# Se renuncia a modelar la curva característica. Justificación: el caudal de aire
+# y la pérdida de carga varían poco entre condiciones de operación, de modo que
+# el consumo se trata como invariante y se toma de los datos del fabricante.
+#
+# VALOR: 780 W, consumo del ventilador de la serie CBN a ALTA VELOCIDAD con el
+# motor conectado en TRIÁNGULO (catálogo del fabricante, 17/09/2026). Es potencia
+# eléctrica ABSORBIDA, que es justo la magnitud que la UNE-EN 14511 exige llevar
+# al denominador de COP y EER: no requiere suponer ningún rendimiento.
+#
+# DOBLE CONTRASTE, y por eso el dato se acepta (§9.7.7):
+#   - con el eta = 0.30 que adopta el §9.7.7, 780 W equivalen a 110.8 Pa, dentro
+#     de la banda 80-120 Pa que ese mismo apartado estima para el conjunto
+#     montado (envolvente + rejilla RS-4);
+#   - a la inversa, si la pérdida de carga fuese solo la de la batería (42 Pa),
+#     el rendimiento implícito sería 0.114, inverosímil en un axial.
+# Las dos vías coinciden en que los 780 W son el CONJUNTO MONTADO, no la batería
+# desnuda. La estimación del capítulo y el catálogo se corroboran entre sí.
+#
+# Queda ligeramente por encima de la horquilla 530-720 W que declara el §9.7.7
+# (+8 % sobre su extremo alto). Anotado para la reescritura del capítulo.
+#
+# UN SOLO VENTILADOR de 500 mm (confirmado por el autor, 17/09/2026), de modo que
+# los 780 W son el consumo del EQUIPO, no una cifra por unidad a multiplicar.
+# Tercera comprobación de coherencia: 7600 m3/h por el área barrida de un Ø500
+# dan 10.75 m/s de velocidad de descarga, normal en un axial de ese diámetro, y
+# un SFP de 369 J/m3, coherente con los ~110 Pa deducidos arriba.
+#
+# SUSTITUYE al valor anterior de 296 W, que se obtenía de 7600 m3/h y 42 Pa con
+# eta = 0.30 adoptado y era una COTA INFERIOR declarada. Se conserva en
+# `cota_inferior_bateria_sola_W` porque es el extremo favorable de la banda y el
+# cap. 11 debe poder mostrar de qué tamaño era el sesgo que se ha evitado.
+ventilador:
+  modelo: consumo_constante
+  potencia_W: 780.0
+  procedencia: catalogo_serie_cbn          # NO es la ficha de selección
+  velocidad: alta
+  conexion_motor: triangulo
+  n_ventiladores: 1                        # confirmado por el autor, 17/09/2026
+  diametro_m: 0.500
+  velocidad_descarga_m_s: 10.75            # derivada; comprobación de coherencia
+  potencia_especifica_J_m3: 369.5          # SFP = potencia_W / caudal
+  es_cota_inferior: false
+  caudal_m3_h: 7600                        # ficha
+  perdida_carga_bateria_Pa: 42.0           # ficha, SOLO la batería
+  rendimiento_conjunto: 0.30               # ADOPTADO (§9.7.7); solo se usa para
+                                           # derivar dp, no para el consumo
+  perdida_carga_implicita_Pa: 110.8         # = potencia_W * eta / caudal
+  cota_inferior_bateria_sola_W: 296.0       # valor anterior; ver comentario
+  sensibilidad_6_11:
+    potencia_W: [296, 780]                  # batería sola -> conjunto montado
+
+# --- DATOS QUE NO EXISTEN (§9.13). No inventar. ---
+# DECISIÓN DEL AUTOR, 28/09/2026: no se harán más peticiones a Frimetal. Estos
+# datos NO van a existir: siguen a null para que el modelo falle si se invocan,
+# y su ausencia es una limitación declarada, no una tarea pendiente.
+pendientes:
+  seleccion_expansion_seca_humeda: null  # la única ficha de evaporador es a
+                                  # bomba y seca (punto_ficha_evaporador)
+  perdida_carga_conjunto_montado_Pa: null  # envolvente + rejilla RS-4. Ya no
+                                  # condiciona el consumo (que es dato), pero sí
+                                  # el efecto de la escarcha sobre el caudal
+  criterio_eficiencia_aleta_fabricante: null  # explicaría la discrepancia del 11 %
+  circuiteria_distribuidor: null  # necesaria para acotar la maldistribución

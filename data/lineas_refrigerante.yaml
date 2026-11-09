@@ -1,0 +1,68 @@
+# Líneas de refrigerante del módulo monobloque (C11-1).
+#
+# DECISIÓN DEL AUTOR, 29/09/2026 (3b): las dimensiones las estima Claude para un
+# módulo compacto, con diámetros normalizados por velocidad, como valores
+# ADOPTADOS y declarados. No son datos de diseño: el capítulo 7 no los fija. Sin
+# sensibilidad salvo que su aportación supere el 10 % de la carga total o el
+# 1 % del COP.
+#
+# No hay recipiente de líquido: el §7.4.2 lo suprime (RS-5).
+#
+# Convenio del modelo:
+# - Adiabáticas (hipótesis del capítulo 6: sin pérdidas de calor al ambiente en
+#   tuberías).
+# - Presión uniforme, como en los intercambiadores (M8, decisión 1 del
+#   29/09/2026): la pérdida de carga se calcula y se publica como comprobación,
+#   con su salto de saturación, y no se resta. Las líneas no cambian la
+#   solución del ciclo; añaden su masa y su pérdida de carga.
+# - Solo se inventarían las líneas ACTIVAS en cada modo. Las que el modo deja
+#   aisladas (tramos de la válvula de cuatro vías sin flujo) quedan fuera:
+#   limitación declarada, porque en ellas puede acumularse líquido.
+#
+# Cada línea une DOS componentes físicos y es la misma en cualquier sentido de
+# flujo: en frío la de batería–válvula lleva líquido y en calor bifásico, con
+# la misma geometría. La clave es el par, en orden alfabético y unido por «--».
+# El compresor tiene dos puertos, `descarga` y `aspiracion`, que son extremos
+# distintos.
+#
+# Criterio de diámetro (adoptado): líneas de gas con el diámetro de las
+# conexiones del compresor (catálogo Bock: aspiración y descarga ø19 mm), en tubo
+# de 19 x 1.5 mm; líneas a los lados de la válvula de expansión, que llevan
+# líquido en un sentido y bifásico en el otro, en tubo de 10 x 1 mm. Acero
+# inoxidable (RS-1).
+# Longitudes (adoptadas): las de un módulo compacto en el que el compresor, el
+# desrecalentador y la válvula de cuatro vías están juntos y la batería ocupa
+# una cara del módulo.
+
+material: acero_inoxidable
+rugosidad_m: 1.5e-6          # tubo estirado de inoxidable, valor habitual
+procedencia: "adoptado, decisión 3b del 29/09/2026 (no es dato de diseño)"
+
+lineas:
+  aspiracion--bateria:           # aspiración en calor (vía válvula de 4 vías)
+    longitud_m: 1.5
+    diametro_interior_m: 0.016
+  aspiracion--placas_clima:      # aspiración en frío (vía válvula de 4 vías)
+    longitud_m: 1.0
+    diametro_interior_m: 0.016
+  bateria--descarga:             # descarga en M-2 (vía válvula de 4 vías)
+    longitud_m: 1.5
+    diametro_interior_m: 0.016
+  bateria--desrecalentador:      # M-1: del desrecalentador a la batería (4 vías)
+    longitud_m: 1.5
+    diametro_interior_m: 0.016
+  bateria--valvula:
+    longitud_m: 1.0
+    diametro_interior_m: 0.008
+  descarga--desrecalentador:
+    longitud_m: 0.5
+    diametro_interior_m: 0.016
+  desrecalentador--placas_clima:
+    longitud_m: 1.0
+    diametro_interior_m: 0.016
+  desrecalentador--valvula:      # M-2: la válvula alimenta el tren por el pequeño
+    longitud_m: 0.5
+    diametro_interior_m: 0.008
+  placas_clima--valvula:
+    longitud_m: 0.5
+    diametro_interior_m: 0.008

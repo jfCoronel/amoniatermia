@@ -1,0 +1,570 @@
+{
+ "M-1": {
+  "converged": true,
+  "valid": true,
+  "admissible": true,
+  "t": 12.593427896499634,
+  "T_evap": 1.6051748177102922,
+  "T_cond": 43.310207277365464,
+  "T_dis": 123.96606468504552,
+  "m_dot": 31.58418680369561,
+  "Q_evap": 9474.893348425869,
+  "Q_high": -11639.427474890774,
+  "Q_acs": 1869.1719991066993,
+  "Q_clima": -9474.893348425869,
+  "W_shaft": 2384.5916250856144,
+  "W_fan": 780.0,
+  "subcooling": 2.000000001025171,
+  "superheat": 5.000000002220645,
+  "p0": 455623.27372605476,
+  "pk": 1702286.3268295855,
+  "h_su": 1622576.4105203385,
+  "unknowns": {
+   "P0": 455623.27372605307,
+   "Pk": 1702286.3268295906,
+   "A_ef": 3.5567435634796445e-07,
+   "m_acs": 0.01397320044030405
+  },
+  "energy": {
+   "COP": null,
+   "COP_global": 3.256402774435053,
+   "EER": 2.7198423177279434,
+   "Q_acs": 1869.1719991066993,
+   "Q_util_clima": 9474.893348425869,
+   "W_el": 3483.618622546048,
+   "W_el_compresor": 2703.618622546048,
+   "W_el_es_cota_inferior": true,
+   "W_fan": 780.0,
+   "por_servicio": 2.7198423177279434,
+   "recuperacion_aporta": 0.19727631017791225
+  },
+  "exergy": {
+   "COP_Carnot": 11.075515753718852,
+   "E_D_compresion": 579.0621627991524,
+   "E_D_electromecanica": 319.02699746043345,
+   "E_D_total": 2473.420486477,
+   "T_0": 308.15,
+   "T_foco_caliente": 308.15,
+   "T_foco_frio": 282.6314212258304,
+   "balance_cierra": true,
+   "cierre": -6.391151884683453e-05,
+   "eta_II": 0.24557252034197102,
+   "margen_velocidad_variable": 319.02699746043345,
+   "perdida_segunda_ley": 0.754427479658029,
+   "y_D_compresor": 0.23411391874736823
+  },
+  "components": {
+   "compresor": {
+    "m_dot": 0.00877338522324878,
+    "W_shaft": 2384.5916250856144,
+    "W_el": 2703.618622546048,
+    "T_dis": 397.1160646850455,
+    "h_dis": 1869292.3669503818,
+    "eta_v": 0.841327041498067,
+    "eta_is": 0.7185543777002634,
+    "Q_amb": 220.05749860258447
+   },
+   "desrecalentador": {
+    "Q_dot": -1869.1719991066993,
+    "h_ref_out": 1656242.107381984,
+    "T_sec_out": 340.1500000087952,
+    "dP_ref": 6021.005784133379,
+    "wet_wall_fraction": 0.08333333333333325,
+    "n_volumenes": 12.0,
+    "n_recortes": 0.0
+   },
+   "bateria": {
+    "Q_dot": -9770.255475784073,
+    "h_ref_out": 542617.7506292831,
+    "n_recortes": 2.0
+   },
+   "placas_clima": {
+    "Q_dot": 9474.893348425869,
+    "h_ref_out": 1622576.4105224048,
+    "T_sec_out": 280.12809728007545,
+    "dP_ref": 387.07841561003534,
+    "wet_wall_fraction": 0.0,
+    "n_volumenes": 13.0,
+    "n_recortes": 1.0
+   }
+  },
+  "charge": {
+   "homogeneous": 0.23623796418270576,
+   "zivi": 0.42548980990901347,
+   "lockhart_martinelli": 0.36256816821146587,
+   "rouhani_axelsson": 0.45277496588689475,
+   "_min": 0.23623796418270576,
+   "_max": 0.45277496588689475,
+   "_spread": 1.9166054340729075,
+   "_RS5_limite_kg": 0.47374466742129345,
+   "_RS5_peor_caso": 0.9557362795268138
+  },
+  "charge_sistema": {
+   "homogeneous": 0.2713613181124164,
+   "zivi": 0.46254717813287427,
+   "lockhart_martinelli": 0.3994612699066531,
+   "rouhani_axelsson": 0.4895602077572672,
+   "_min": 0.2713613181124164,
+   "_max": 0.4895602077572672,
+   "_spread": 1.8040898797317084,
+   "_RS5_limite_kg": 0.47374466742129345,
+   "_RS5_peor_caso": 1.0333841020777321
+  },
+  "envelope_zona": null,
+  "message": "`xtol` termination condition is satisfied."
+ },
+ "M-2": {
+  "converged": true,
+  "valid": true,
+  "admissible": true,
+  "t": 6.22658896446228,
+  "T_evap": 3.6934913059999985,
+  "T_cond": 45.69307317572276,
+  "T_dis": 124.12767781851096,
+  "m_dot": 34.30656475303975,
+  "Q_evap": 10200.81795693423,
+  "Q_high": -12504.33737080184,
+  "Q_acs": 0,
+  "Q_clima": -10200.81795693423,
+  "W_shaft": 2544.626351660245,
+  "W_fan": 780.0,
+  "subcooling": 2.0000000050579274,
+  "superheat": 5.000000000301782,
+  "p0": 491809.326806415,
+  "pk": 1815030.1540923854,
+  "h_su": 1624891.459569304,
+  "unknowns": {
+   "P0": 491809.32680641004,
+   "Pk": 1815030.1540924008,
+   "A_ef": 3.762594608817514e-07
+  },
+  "energy": {
+   "COP": null,
+   "COP_global": 2.783257880611635,
+   "EER": 2.783257880611635,
+   "Q_acs": 0,
+   "Q_util_clima": 10200.81795693423,
+   "W_el": 3665.0638907712528,
+   "W_el_compresor": 2885.0638907712528,
+   "W_el_es_cota_inferior": true,
+   "W_fan": 780.0,
+   "por_servicio": 2.783257880611635,
+   "recuperacion_aporta": 0.0
+  },
+  "exergy": {
+   "COP_Carnot": 10.98489027640855,
+   "E_D_compresion": 603.2478218119747,
+   "E_D_electromecanica": 340.43753911100794,
+   "E_D_total": 2632.074082184223,
+   "T_0": 308.15,
+   "T_foco_caliente": 308.15,
+   "T_foco_frio": 282.438458809959,
+   "balance_cierra": true,
+   "cierre": -8.095571089441628e-05,
+   "eta_II": 0.2533714776003758,
+   "margen_velocidad_variable": 340.43753911100794,
+   "perdida_segunda_ley": 0.7466285223996242,
+   "y_D_compresor": 0.22919104971064128
+  },
+  "components": {
+   "compresor": {
+    "m_dot": 0.00952960132028882,
+    "W_shaft": 2544.626351660245,
+    "W_el": 2885.0638907712528,
+    "T_dis": 397.27767781851094,
+    "h_dis": 1866613.9972079545,
+    "eta_v": 0.8499501367869988,
+    "eta_is": 0.7259980859434179,
+    "Q_amb": 241.1069378353991
+   },
+   "bateria": {
+    "Q_dot": -12504.33737080184,
+    "h_ref_out": 554456.5469083586,
+    "n_recortes": 2.0
+   },
+   "desrecalentador": {
+    "Q_dot": 2761.3954112391934,
+    "h_ref_out": 844226.8445765408,
+    "T_sec_out": 279.74377239157826,
+    "dP_ref": 4098.744175870979,
+    "wet_wall_fraction": 0.0,
+    "n_volumenes": 12.0,
+    "n_recortes": 0.0
+   },
+   "placas_clima": {
+    "Q_dot": 7439.422545695036,
+    "h_ref_out": 1624891.4595648164,
+    "T_sec_out": 281.20609299252146,
+    "dP_ref": 530.622299884312,
+    "wet_wall_fraction": 0.0,
+    "n_volumenes": 13.0,
+    "n_recortes": 1.0
+   }
+  },
+  "charge": {
+   "homogeneous": 0.2084473245733997,
+   "zivi": 0.3639888672350413,
+   "lockhart_martinelli": 0.3108369628614651,
+   "rouhani_axelsson": 0.3650421469481993,
+   "_min": 0.2084473245733997,
+   "_max": 0.3650421469481993,
+   "_spread": 1.7512440982165665,
+   "_RS5_limite_kg": 0.5100408978467115,
+   "_RS5_peor_caso": 0.7157115213492343
+  },
+  "charge_sistema": {
+   "homogeneous": 0.24373312242760362,
+   "zivi": 0.4064603126809849,
+   "lockhart_martinelli": 0.3555996208037109,
+   "rouhani_axelsson": 0.4128894071711115,
+   "_min": 0.24373312242760362,
+   "_max": 0.4128894071711115,
+   "_spread": 1.694022556551593,
+   "_RS5_limite_kg": 0.5100408978467115,
+   "_RS5_peor_caso": 0.8095221558001452
+  },
+  "envelope_zona": null,
+  "message": "`xtol` termination condition is satisfied."
+ },
+ "M-3": {
+  "converged": true,
+  "valid": true,
+  "admissible": false,
+  "t": 26.974637031555176,
+  "T_evap": 0.3899269129684626,
+  "T_cond": 48.121553399514085,
+  "T_dis": 143.61219126987112,
+  "m_dot": 28.900761633973246,
+  "Q_evap": 8466.372655337856,
+  "Q_high": -10819.368721948791,
+  "Q_acs": 2193.828011516976,
+  "Q_clima": 8625.540710431815,
+  "W_shaft": 2548.3891721896707,
+  "W_fan": 780.0,
+  "subcooling": 2.0000000069564408,
+  "superheat": 4.999999998913495,
+  "p0": 435542.3750757226,
+  "pk": 1935628.9923825436,
+  "h_su": 1621199.514156624,
+  "unknowns": {
+   "P0": 435542.37507572386,
+   "Pk": 1935628.9923825331,
+   "A_ef": 2.987480675025602e-07,
+   "m_acs": 0.016400202107639775
+  },
+  "energy": {
+   "COP": 2.350712640025048,
+   "COP_global": 2.9485950696421246,
+   "EER": null,
+   "Q_acs": 2193.828011516976,
+   "Q_util_clima": 8625.540710431815,
+   "W_el": 3669.330127199173,
+   "W_el_compresor": 2889.330127199173,
+   "W_el_es_cota_inferior": true,
+   "W_fan": 780.0,
+   "por_servicio": 2.350712640025048,
+   "recuperacion_aporta": 0.25434092599710767
+  },
+  "exergy": {
+   "COP_Carnot": 8.937878060017072,
+   "E_D_compresion": 575.1447170210989,
+   "E_D_electromecanica": 340.94095500950243,
+   "E_D_total": 2369.265766878358,
+   "T_0": 280.15,
+   "T_foco_caliente": 315.442807206388,
+   "T_foco_frio": 280.15,
+   "balance_cierra": true,
+   "cierre": 0.0048637044387230335,
+   "eta_II": 0.26300567363307237,
+   "margen_velocidad_variable": 340.94095500950243,
+   "perdida_segunda_ley": 0.7369943263669276,
+   "y_D_compresor": 0.2427523011818487
+  },
+  "components": {
+   "compresor": {
+    "m_dot": 0.008027989342770346,
+    "W_shaft": 2548.3891721896707,
+    "W_el": 2889.330127199173,
+    "T_dis": 416.7621912698711,
+    "h_dis": 1914298.5662476318,
+    "eta_v": 0.8034306195703088,
+    "eta_is": 0.7086449630235454,
+    "Q_amb": 195.39310562696937
+   },
+   "desrecalentador": {
+    "Q_dot": -2193.828011516976,
+    "h_ref_out": 1641026.1542092874,
+    "T_sec_out": 340.14999999102986,
+    "dP_ref": 4510.368858649923,
+    "wet_wall_fraction": 0.33333333333333326,
+    "n_volumenes": 12.0,
+    "n_recortes": 0.0
+   },
+   "placas_clima": {
+    "Q_dot": -8625.540710431815,
+    "h_ref_out": 566592.6513547277,
+    "T_sec_out": 317.7383232677543,
+    "dP_ref": -51.36455438773923,
+    "wet_wall_fraction": 0.04881456683959227,
+    "n_volumenes": 14.0,
+    "n_recortes": 2.0
+   },
+   "bateria": {
+    "Q_dot": 8466.372655337856,
+    "h_ref_out": 1621199.5141506158,
+    "n_recortes": 1.0
+   }
+  },
+  "charge": {
+   "homogeneous": 0.0659834163349106,
+   "zivi": 0.14842282674611695,
+   "lockhart_martinelli": 0.17511777014185165,
+   "rouhani_axelsson": 0.30578687624838885,
+   "_min": 0.0659834163349106,
+   "_max": 0.30578687624838885,
+   "_spread": 4.634298938028807,
+   "_RS5_limite_kg": 0.42331863276689286,
+   "_RS5_peor_caso": 0.7223562880984151
+  },
+  "charge_sistema": {
+   "homogeneous": 0.08633256079283522,
+   "zivi": 0.17207101514960016,
+   "lockhart_martinelli": 0.19874577498238985,
+   "rouhani_axelsson": 0.32936982091833383,
+   "_min": 0.08633256079283522,
+   "_max": 0.32936982091833383,
+   "_spread": 3.815128589880406,
+   "_RS5_limite_kg": 0.42331863276689286,
+   "_RS5_peor_caso": 0.7780659659734528
+  },
+  "envelope_zona": null,
+  "message": "`xtol` termination condition is satisfied."
+ },
+ "M-4": {
+  "converged": true,
+  "valid": true,
+  "admissible": false,
+  "t": 18.440189838409424,
+  "T_evap": 0.38600526460322726,
+  "T_cond": 48.01826041343031,
+  "T_dis": 143.3001053030335,
+  "m_dot": 28.91295841409247,
+  "Q_evap": 8474.067494316612,
+  "Q_high": -10822.584883240495,
+  "Q_acs": 0,
+  "Q_clima": 10822.584883240495,
+  "W_shaft": 2544.2347116734272,
+  "W_fan": 780.0,
+  "subcooling": 1.999999978167125,
+  "superheat": 4.999999950092217,
+  "p0": 435478.7114937869,
+  "pk": 1930379.942827001,
+  "h_su": 1621195.0359566307,
+  "unknowns": {
+   "P0": 435478.7114937887,
+   "Pk": 1930379.9428269917,
+   "A_ef": 2.9934681601481893e-07
+  },
+  "energy": {
+   "COP": 2.9532626337588574,
+   "COP_global": 2.9532626337588574,
+   "EER": null,
+   "Q_acs": 0,
+   "Q_util_clima": 10822.584883240495,
+   "W_el": 3664.6198545050197,
+   "W_el_compresor": 2884.6198545050197,
+   "W_el_es_cota_inferior": true,
+   "W_fan": 780.0,
+   "por_servicio": 2.9532626337588574,
+   "recuperacion_aporta": 0.0
+  },
+  "exergy": {
+   "COP_Carnot": 8.808663778402472,
+   "E_D_compresion": 574.6174723589794,
+   "E_D_electromecanica": 340.3851428315925,
+   "E_D_total": 2397.3006249895407,
+   "T_0": 280.15,
+   "T_foco_caliente": 316.02681682170135,
+   "T_foco_frio": 280.15,
+   "balance_cierra": true,
+   "cierre": 0.004877900479823483,
+   "eta_II": 0.3352679484713466,
+   "margen_velocidad_variable": 340.3851428315925,
+   "perdida_segunda_ley": 0.6647320515286534,
+   "y_D_compresor": 0.23969353962917622
+  },
+  "components": {
+   "compresor": {
+    "m_dot": 0.008031377337247908,
+    "W_shaft": 2544.2347116734272,
+    "W_el": 2884.6198545050197,
+    "T_dis": 416.45010530303347,
+    "h_dis": 1913612.7980945462,
+    "eta_v": 0.8038809512630584,
+    "eta_is": 0.7086675071827928,
+    "Q_amb": 195.71732383022345
+   },
+   "desrecalentador": {
+    "Q_dot": -2203.651769093344,
+    "h_ref_out": 1639232.4923811972,
+    "T_sec_out": 318.90688774958915,
+    "dP_ref": 4345.613055456074,
+    "wet_wall_fraction": 0.4999999999999999,
+    "n_volumenes": 12.0,
+    "n_recortes": 0.0
+   },
+   "placas_clima": {
+    "Q_dot": -8618.933114147152,
+    "h_ref_out": 566074.9563538112,
+    "T_sec_out": 317.73480874707764,
+    "dP_ref": -47.725339096843875,
+    "wet_wall_fraction": 0.02918424238460562,
+    "n_volumenes": 14.0,
+    "n_recortes": 2.0
+   },
+   "bateria": {
+    "Q_dot": 8474.067494316612,
+    "h_ref_out": 1621195.0358220737,
+    "n_recortes": 1.0
+   }
+  },
+  "charge": {
+   "homogeneous": 0.06690085963483036,
+   "zivi": 0.15048295870017647,
+   "lockhart_martinelli": 0.17639544724701495,
+   "rouhani_axelsson": 0.30927268396394947,
+   "_min": 0.06690085963483036,
+   "_max": 0.30927268396394947,
+   "_spread": 4.62285067265315,
+   "_RS5_limite_kg": 0.42370337471583064,
+   "_RS5_peor_caso": 0.7299273558332464
+  },
+  "charge_sistema": {
+   "homogeneous": 0.08725522357655886,
+   "zivi": 0.1741439130624227,
+   "lockhart_martinelli": 0.20003277683031806,
+   "rouhani_axelsson": 0.33286276698113954,
+   "_min": 0.08725522357655886,
+   "_max": 0.33286276698113954,
+   "_spread": 3.8148176503047,
+   "_RS5_limite_kg": 0.42370337471583064,
+   "_RS5_peor_caso": 0.7856032942961191
+  },
+  "envelope_zona": null,
+  "message": "`xtol` termination condition is satisfied."
+ },
+ "M-5": {
+  "converged": true,
+  "valid": true,
+  "admissible": false,
+  "t": 13.673840761184692,
+  "T_evap": 17.30487206779594,
+  "T_cond": 52.363723109076545,
+  "T_dis": 106.42771776142058,
+  "m_dot": 58.832786755240186,
+  "Q_evap": 17164.638541722383,
+  "Q_high": -19946.26868524868,
+  "Q_acs": 19946.26868524868,
+  "Q_clima": 0,
+  "W_shaft": 3171.686314259402,
+  "W_fan": 780.0,
+  "subcooling": 2.0000000114995373,
+  "superheat": 5.000000065045128,
+  "p0": 785583.0582841085,
+  "pk": 2160639.7058266643,
+  "h_su": 1638284.7849968004,
+  "unknowns": {
+   "P0": 785583.0582841152,
+   "Pk": 2160639.7058266783,
+   "A_ef": 6.39234518766087e-07,
+   "m_acs": 0.1290054515573142
+  },
+  "energy": {
+   "COP": null,
+   "COP_global": 4.558088370790277,
+   "EER": null,
+   "Q_acs": 19946.26868524868,
+   "Q_util_clima": 0.0,
+   "W_el": 4376.01622931905,
+   "W_el_compresor": 3596.0162293190497,
+   "W_el_es_cota_inferior": true,
+   "W_fan": 780.0,
+   "por_servicio": null,
+   "recuperacion_aporta": NaN
+  },
+  "exergy": {
+   "COP_Carnot": null,
+   "E_D_compresion": 685.3976213951454,
+   "E_D_electromecanica": 424.32991505964765,
+   "E_D_total": 4103.874328057492,
+   "T_0": 305.15,
+   "T_foco_caliente": NaN,
+   "T_foco_frio": NaN,
+   "balance_cierra": true,
+   "cierre": 2.8993087982765725e-05,
+   "eta_II": null,
+   "margen_velocidad_variable": 424.32991505964765,
+   "perdida_segunda_ley": null,
+   "y_D_compresor": 0.16701233191016554
+  },
+  "components": {
+   "compresor": {
+    "m_dot": 0.016342440765344496,
+    "W_shaft": 3171.686314259402,
+    "W_el": 3596.0162293190497,
+    "T_dis": 379.57771776142056,
+    "h_dis": 1808493.7633189263,
+    "eta_v": 0.9321092721972696,
+    "eta_is": 0.7624013988558425,
+    "Q_amb": 390.0561683002452
+   },
+   "desrecalentador": {
+    "Q_dot": -2687.5901222698762,
+    "h_ref_out": 1644039.1288576447,
+    "T_sec_out": 325.15000000872726,
+    "dP_ref": 14013.94268017566,
+    "wet_wall_fraction": 0.4999999999999999,
+    "n_volumenes": 12.0,
+    "n_recortes": 0.0
+   },
+   "placas_clima": {
+    "Q_dot": -17258.678562978803,
+    "h_ref_out": 587974.1988517629,
+    "T_sec_out": 320.1649756019056,
+    "dP_ref": 253.4869376625868,
+    "wet_wall_fraction": 0.07567923627677398,
+    "n_volumenes": 13.0,
+    "n_recortes": 2.0
+   },
+   "bateria": {
+    "Q_dot": 17164.638541722383,
+    "h_ref_out": 1638284.7851456676,
+    "n_recortes": 1.0
+   }
+  },
+  "charge": {
+   "homogeneous": 0.08149042303759912,
+   "zivi": 0.19391662414644809,
+   "lockhart_martinelli": 0.20791905628497084,
+   "rouhani_axelsson": 0.27207989495037577,
+   "_min": 0.08149042303759912,
+   "_max": 0.27207989495037577,
+   "_spread": 3.338795956732731,
+   "_RS5_limite_kg": 0.8582319270861192,
+   "_RS5_peor_caso": 0.3170237395783505
+  },
+  "charge_sistema": {
+   "homogeneous": 0.10422648331539158,
+   "zivi": 0.22182815785294768,
+   "lockhart_martinelli": 0.23425916369128752,
+   "rouhani_axelsson": 0.29794515294119517,
+   "_min": 0.10422648331539158,
+   "_max": 0.29794515294119517,
+   "_spread": 2.8586319279295522,
+   "_RS5_limite_kg": 0.8582319270861192,
+   "_RS5_peor_caso": 0.34716158131378616
+  },
+  "envelope_zona": null,
+  "message": "`xtol` termination condition is satisfied."
+ }
+}

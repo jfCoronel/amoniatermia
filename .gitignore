@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
+notebooks/*.ipynb
+!notebooks/**/*.py
+.ipynb_checkpoints/
+docs/*.png
+results/
+.claude/
+.DS_Store
+
+# Normas UNE: licencia AENORmás de la Universidad de Sevilla, uso en red interna
+# solo con autorización de AENOR. Se quedan en local; en git van solo las tablas
+# transcritas, con su cita (decisión del autor, 29/09/2026).
+docs/normas/

@@ -1,0 +1,89 @@
+# Compresor semihermético alternativo Bock HG22e/160-4 S HC (Danfoss), R-290 — cap. 13 (H5).
+# Fuente: VAP 11.15.5 (vap.danfoss.com), 05/10/2026, `Compresor_Bock_HG22e-160-4_S_HC_R290.pdf`;
+# puntos en `compresor_r290_catalogo.csv` (tabla del PDF y puntos sueltos del VAP, generados por
+# el autor). Unidades: SI estricto.
+id: bock_hg22e_160_4_s_hc_r290
+tipo: alternativo_semihermetico
+fluido: Propane
+identificacion_vigente: identificacion_2026_10_05
+
+# --- MODELO DEL COMPRESOR (decisión P2 del 15/10/2026): polinomios de UNE-EN 12900 en caudal,
+# potencia eléctrica y descarga, ajustados a los puntos del catálogo con 5 K de recalentamiento
+# (una sola velocidad). Los de 1 y 10 K comprueban la regla del recalentamiento.
+modelo_compresor: en12900
+modelo_en12900:
+  fuente: catalogo_fichero
+  fichero_puntos: compresor_r290
+  recalentamiento_ref_K: 5.0
+  # Cilindrada del compresor de los datos: el rendimiento volumétrico se deduce con ella.
+  # Escalar `geometria.volumen_barrido_m3_rev` (igualación de capacidad, tabla 6.6) escala
+  # caudal y potencia con los mismos rendimientos.
+  volumen_barrido_datos_m3_rev: 1.5708e-4
+  grado_velocidad: 0
+  descarga: polinomio
+  ajuste:
+    factor_caudal: 1.0
+    factor_potencia: 1.0
+    desplazamiento_descarga_K: 0.0
+
+geometria:
+  n_cilindros: 2
+  diametro_cilindro_m: 0.050      # ficha, p. 3
+  carrera_m: 0.040
+  volumen_barrido_m3_rev: 1.5708e-4   # 2·(π/4)·0,05²·0,04; ficha: 13,70 m³/h a 1450 rpm (1,5747e-4)
+
+operacion:
+  velocidad_nominal_rpm: 1450
+  p_max_baja_Pa: 1.9e+6           # 19 bar, MANOMÉTRICA (ficha, p. 3)
+  p_max_alta_Pa: 3.2e+6           # 32 bar, MANOMÉTRICA
+  peso_kg: 75
+
+limites:
+  presiones_manometricas: true
+  # El fabricante no publica temperatura de descarga máxima; la del R-290 es baja (66,6 °C a
+  # 2/45). Su requisito es el contrario: descarga ≥ T_k + 20 K, que se supone resuelto con el IHX
+  # que el fabricante exige (decisión 7 del 05/10/2026) y no limita la admisibilidad.
+  T_descarga_max_K: null
+  diagrama_aplicacion:
+    procedencia: "fabricante (VAP, p. 2), digitalizado (±1 K)"
+    sin_limites_C:                # zona azul oscura
+      - [-40.0, 10.0]
+      - [-10.0, 10.0]
+      - [10.0, 30.0]
+      - [10.0, 65.0]
+      - [-17.0, 65.0]
+      - [-40.0, 20.0]
+    envolvente_C:                 # más refrigeración suplementaria o aspiración más fría
+      - [-40.0, 10.0]
+      - [-10.0, 10.0]
+      - [10.0, 30.0]
+      - [10.0, 65.0]
+      - [-25.0, 65.0]
+      - [-40.0, 47.0]
+
+# Hermético: el motor está dentro y sus pérdidas calientan la aspiración. La potencia del
+# fabricante es ELÉCTRICA y la identificación se hace contra ella, de modo que las pérdidas
+# del motor quedan dentro de alpha y W_loss0 (formulación original de Winandy et al., 2002).
+transmision:
+  eta_motor: 1.0
+  eta_transmision: 1.0
+  procedencia: "hermético: pérdidas del motor dentro de los parámetros identificados"
+
+parametros_identificados:
+  n_politropico: 1.30             # el mismo que el F2 (no identificable aparte)
+
+identificacion_2026_10_05:   # cuaderno 09, decision 11 del 05/10/2026 (dominio de uso, pared adiabatica)
+  AU_su_n_W_K: 0.001
+  AU_ex_n_W_K: 1
+  AU_amb_W_K: 1
+  A_leak_m2: 0
+  C: 0.083806
+  alpha: 0
+  W_loss_0_W: 0
+  r_v: 2.28632
+  eta_ic: 0.577863
+  contraste:   # sobre los 31 puntos de identificacion
+    caudal_max_desviacion: 0.0132
+    potencia_max_desviacion: 0.0513
+    T_descarga_max_K: 3.59
+    exceso_sobre_adiabatica_max_K: 2.65

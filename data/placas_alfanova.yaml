@@ -1,0 +1,265 @@
+# Intercambiadores de placas Alfa Laval AlfaNova (soldadura por fusión, AISI 316L)
+# Fuente: capítulo 9, §9.6.2. Gama íntegramente de acero inoxidable -> cumple RS-1
+# (exclusión de cobre, latón, bronce, cinc y galvanizados en contacto con NH3).
+# Unidades: SI estricto.
+#
+# APORTACIÓN DEL 18/09/2026: documentación del fabricante
+#   - alfa-laval-alfanova-16-product-leaflet-es-es.pdf   (gama AlfaNova 16 / HP 16)
+#   - alfa-laval-product-leaflet-en-ALFANOVA-27pdf.pdf   (gama AlfaNova 27 / HP / XP)
+#   - AlfaNova 27-30H Drawing (3).pdf                    (plano de la unidad)
+#   - AlfaNova 27-30H Tech Spec (3).pdf                  (punto de selección)
+#
+# Cierra tres de los diez datos pendientes y deja los otros siete donde estaban.
+# Lo que cierra se marca con `procedencia:`; lo que sigue abierto sigue a `null`.
+
+restriccion_material: RS-1        # tabla 8.7
+material: AISI_316L
+material_placa_ficha: ALLOY_316     # ficha 27-30H, 23/03/2026
+conductividad_placa_W_mK: 15.0     # serie austenítica; ya no es suposición de material
+tipo_union: soldadura_por_fusion  # sin cobre de aportación
+
+unidades:
+
+  condensador_climatizacion:
+    # CORREGIDO el 16/09/2026. Decía "AlfaNova 76", denominación errónea. La
+    # tabla 9.12 declara "Alfa Laval AlfaNova 27-30H (selección oficial)". Área,
+    # volumen, presión y punto de diseño sí eran correctos; la denominación no.
+    modelo: AlfaNova 27-30H
+    area_m2: 0.7
+    # Geometría transcrita de la tabla 9.12. Lo que la tabla no da queda null.
+    geometria:
+      n_placas: 30
+      n_canales_caliente: 14
+      n_canales_frio: 15
+      placa_ancho_m: 0.111         # Lw, tabla 9.12
+      placa_largo_m: 0.250         # Lp, distancia entre puertos, tabla 9.12
+      # CERRADO el 18/09/2026 con el catálogo de la gama. La cota A del
+      # AlfaNova 27 crece 2.42 mm por placa (A = 11 + 2.42*n), y el plano de
+      # esta unidad la da en 83.6 mm con n = 30: 11 + 2.42*30 = 83.6. Exacto.
+      # Ese 2.42 mm es el PASO del paquete, esto es b + espesor de placa, de
+      # modo que b = 2.42 - t. Con t acotado abajo, b = 2.02 mm con una banda
+      # de +-0.02 sobre todo el rango plausible de Phi: el espesor es tan
+      # pequeño frente al paso que b queda determinado aunque Phi no lo esté.
+      paso_placas_catalogo_m: 0.00242   # b + t, dato de catálogo
+      paso_entre_placas_m: 0.00202      # b = paso - t
+      # IDENTIFICADO el 18/09/2026 sobre la pérdida de carga del agua del punto
+      # de selección, con la correlación de Martin, que es el único vínculo que
+      # liga fricción y transferencia a través del ángulo. Procedimiento y
+      # sensibilidad en `plate_hx.anchor_from_selection_point`.
+      #   valor central 71.6°, banda 67-74° recorriendo Phi en [1.10, 1.30] y
+      #   el recorte efectivo de placa entre sus dos lecturas posibles.
+      # NO es un dato de catálogo y no debe presentarse como tal.
+      # CORROBORACIÓN INDEPENDIENTE: la ficha designa los 29 canales como H, de
+      # alta transferencia. Un ángulo de 71° es de placa H. Las dos
+      # informaciones son ajenas entre sí y coinciden.
+      angulo_corrugacion_rad: 1.2497      # 71.6 grados
+      angulo_corrugacion_deg: 71.6
+      angulo_procedencia: IDENTIFICADO_sobre_perdida_de_carga
+      angulo_banda_deg: [67.4, 73.9]
+      factor_alargamiento: 1.15    # Phi — SIGUE ESTIMADO. El punto de selección
+                                   # no basta para resolverlo junto a beta y a
+                                   # phi_c*phi_v: entra tres veces, en D_h, en
+                                   # el área desarrollada y en el Reynolds.
+      # DERIVADO del peso de catálogo, no declarado. La gama pesa
+      # 1 + 0.13*n kg, luego 0.13 kg por placa; con 7900 kg/m3 y el recorte de
+      # 111 x 310 mm, el producto Phi*t queda fijado en 0.478 mm. Es una
+      # ECUACIÓN ENTRE Phi Y t, no un valor de t: fijado Phi, t se sigue.
+      # Con Phi en [1.15, 1.25], t cae en [0.383, 0.416] mm.
+      espesor_placa_m: 0.00040
+      espesor_procedencia: DERIVADO_del_peso
+      phi_por_espesor_m: 0.478e-3       # Phi * t, esto sí es dato
+      # Todos los canales son de tipo H (alto theta), los 14 del lado caliente
+      # y los 15 del frío: "Channel arrangement 1*14H / 1*15H". No da el ángulo,
+      # pero descarta la placa L y las combinaciones mixtas H/L.
+      nomenclatura_H: '1*14H / 1*15H'
+      resistencia_ensuciamiento_m2K_W: 2.7e-4   # ficha: "fouling * 10000 = 2,7"
+    volumen_interno_m3:
+      caliente: 0.70e-3
+      frio: 0.75e-3
+    # El catálogo declara 0.0500 L por canal y la ficha lo verifica por dos
+    # vías independientes: 0.70/14 = 0.0500 y 0.75/15 = 0.0500.
+    volumen_por_canal_m3: 0.050e-3
+    dimensiones_m:
+      distancia_puertos_vertical: 0.250
+      distancia_puertos_horizontal: 0.050
+      ancho_total: 0.111
+      alto_total: 0.310
+      largo_paquete: 0.0836          # = 11 + 2.42*30 mm
+    masa_por_placa_kg: 0.13          # peso = 1 + 0.13*n
+    n_placas_min: 6
+    n_placas_max: 100
+    presion_diseno_Pa: 3.0e+6      # 30 bar
+    punto_diseno:
+      refrigerante: Ammonia
+      T_cond_C: 50
+      titulo: [1.0, 0.0]
+      agua_T_in_C: 40
+      agua_T_out_C: 45
+      agua_caudal_m3_h: 1.83
+      Q_W: 10.5e+3
+      # --- AÑADIDO el 18/09/2026 desde la ficha de selección ---
+      # Es al condensador de placas lo que el punto de ficha de la batería es al
+      # serpentín: el ÚNICO punto de operación del que se dispone, y por tanto
+      # el único anclaje posible. Ver `anclaje` más abajo.
+      MTD_K: 7.3
+      margen_declarado: 1.22
+      dp_agua_Pa: 7930.0
+      dp_amoniaco_Pa: 58.0
+      caudal_amoniaco_kg_h: 35.73     # ficha (Tech Spec, 23/03/2026); añadido el 29/09/2026
+      presion_condensacion_Pa: 20.33e+5
+      agua_T_media_C: 42.5
+      contracorriente: true
+    # --- Anclaje derivado del punto de selección ---
+    # U de servicio = Q/(A*MTD) = 10500/(0.7*7.3) = 2055 W/(m2 K), pero ese
+    # valor lleva dentro el ensuciamiento declarado. Descontándolo:
+    #   1/U_limpio = 1/2055 - 2.7e-4  ->  U_limpio = 4615 W/(m2 K)
+    # Comprobación independiente: el margen que ese U_limpio implica,
+    # UA_limpio/UA_requerido - 1, sale 125 % frente al 122 % que declara la
+    # ficha. Las dos lecturas coinciden dentro de tres puntos, de modo que el
+    # reparto entre U limpio y ensuciamiento es el correcto.
+    # CUIDADO: está referido a los 0.7 m2 DECLARADOS, que son área proyectada.
+    anclaje:
+      U_servicio_W_m2K: 2055
+      U_limpio_W_m2K: 4615
+      margen_implicito: 1.25
+      area_de_referencia: proyectada_declarada
+
+  desrecalentador_acs:
+    # CORREGIDO el 16/09/2026: decía "AlfaNova 16". Tabla 9.12: AlfaNova 16-10H.
+    modelo: AlfaNova 16-10H
+    area_m2: 0.0995               # geometría real: 10 placas de 0.074 x 0.172 m
+    # D13 RESUELTA el 17/09/2026. Los 0.0995 m² son el área PROYECTADA y los
+    # 0.117 m² la DESARROLLADA: son dos magnitudes distintas, no una mal
+    # calculada. La reconstrucción proyectada da 8 x 0.074 x 0.172 = 0.1018 m²,
+    # a +2.4 % de la declarada; el residuo es geométrico (zonas de puerto, marco)
+    # y no tiene que ver con el corrugado.
+    #
+    # CONVENIO ADOPTADO: DESARROLLADA, por coherencia interna. D_h = 2b/Phi
+    # (ec. 9-13) es la definición del VDI, y Martin —la correlación del
+    # §9.6.7— está formulada sobre ese diámetro y sobre el área desarrollada.
+    # Contraste independiente: el punto de diseño del §9.6.7 sale a -3.5 % de
+    # los 2.63 kW con área desarrollada y a -9.0 % con la proyectada, de modo
+    # que el capítulo empleó la desarrollada.
+    #
+    # CUIDADO al usar un U de catálogo: viene referido al área proyectada.
+    n_placas: 10
+    placa_largo_m: 0.172
+    placa_ancho_m: 0.074
+    geometria:
+      n_placas: 10
+      # 10 placas -> 9 canales, alternos: 4 por un lado y 5 por el otro, igual
+      # que el 27-30H reparte sus 29 en 14/15. Decia 4/4, que no suma 9. No
+      # afectaba a ningun calculo —`plate_geometry` deriva el reparto del numero
+      # de placas y no lee estas dos claves— pero el dato estaba mal.
+      n_canales_caliente: 4
+      n_canales_frio: 5
+      placa_ancho_m: 0.074
+      placa_largo_m: 0.172
+      # CORREGIDO el 18/09/2026, y la corrección no es menor. El valor anterior
+      # de 2.09 mm se dedujo del volumen por canal; el catálogo de la gama da
+      # ahora el PASO del paquete directamente —A = 7 + 2.06*n, esto es 2.06 mm
+      # por placa— y 2.09 EXCEDE ese paso, lo que es imposible: el hueco de
+      # canal no puede ser mayor que la distancia entre placas. El valor viejo
+      # absorbía en b el volumen de los puertos, que la cifra de ficha incluye.
+      #   b = 2.06 - t = 1.72 mm, con +-0.02 sobre todo el rango de Phi.
+      # Consecuencia: la sección de paso baja un 18 % y D_h con ella, de modo
+      # que el punto de diseño del §9.6.7 y con él H3 se mueven.
+      paso_placas_catalogo_m: 0.00206   # b + t, dato de catálogo
+      paso_entre_placas_m: 0.00172      # b = paso - t
+      # ADOPTADO del 27-30H, no identificado: no hay ficha de selección de esta
+      # unidad y por tanto no hay pérdida de carga sobre la que anclar. Se
+      # traslada por pertenecer a la misma gama AlfaNova y llevar la misma
+      # designación H de canal. Es una hipótesis de familia, se declara como
+      # tal, y debe recorrerse en la sensibilidad del cap. 10 sobre la banda
+      # 67-74°. El valor anterior supuesto en los contrastes era 60°.
+      angulo_corrugacion_rad: 1.2497      # 71.6 grados
+      angulo_procedencia: ADOPTADO_del_27_30H
+      factor_alargamiento: 1.15     # ESTIMADO, §9.6.2: "sigue siendo una
+                                    # estimación sin dato oficial". El catálogo
+                                    # aportado NO lo declara: sigue estimado.
+      espesor_placa_m: 0.00034      # DERIVADO del peso: 0.05 kg/placa, recorte
+                                    # 74 x 210 mm -> Phi*t = 0.407 mm
+      espesor_procedencia: DERIVADO_del_peso
+      phi_por_espesor_m: 0.407e-3
+      resistencia_ensuciamiento_m2K_W: null   # la ficha del 16-10H no se tiene
+    volumen_interno_m3: 0.0235e-3
+    volumen_por_canal_m3: 0.0235e-3   # catálogo de la gama
+    dimensiones_m:
+      distancia_puertos_vertical: 0.172
+      distancia_puertos_horizontal: 0.040
+      ancho_total: 0.074
+      alto_total: 0.210
+      largo_paquete: 0.0276          # = 7 + 2.06*10 mm
+    masa_por_placa_kg: 0.05          # peso = 0.3 + 0.05*n
+    n_placas_min: 6
+    n_placas_max: 50
+    conexiones: '3/4"'
+    presion_diseno_Pa: 3.7e+6      # 37 bar a -196 °C / 25 bar a 225 °C
+    punto_diseno:
+      refrigerante: Ammonia
+      T_in_C: 140.4               # descarga del compresor
+      T_out_C: 55.9               # margen de 10.9 K sobre T_sat = 45 °C
+      agua_T_in_C: 35
+      agua_T_out_C: 60
+      agua_caudal_kg_h: 90.6
+      Q_W: 2.63e+3
+
+# --- Coeficientes pendientes de fijar (§9.6.4) ---
+# NO inventar valores. El modelo debe fallar explícitamente si se invocan sin fijar.
+pendientes:
+  # phi_c y phi_v POR SEPARADO siguen pendientes, y probablemente lo estén
+  # siempre: el punto de selección da su PRODUCTO, que es lo único que
+  # interviene en la ec. 9-17. Separarlos exige un segundo punto a otra
+  # velocidad de vapor, exactamente como C1 y C2 del §9.7.3 no se separaron
+  # con un solo punto de ficha.
+  phi_c: null       # factor de corrección de corrugado, forma funcional phi_c(beta)
+  phi_v: null       # factor de corrección, forma funcional phi_v(Re_v)
+  # C y m son de `singlephase/chevron_generic`, la correlación PROVISIONAL.
+  # Dejan de bloquear: con beta identificado el modelo puede usar Martin, que no
+  # tiene coeficientes libres y es la que el §9.6.7 dice haber empleado.
+  # Siguen a null porque `chevron_generic` se conserva como alternativa de la
+  # banda del ap. 6.11, y sin ellos no puede invocarse.
+  C_monofasico: null  # Nu = C * Re^m * Pr^(1/3) * (mu/mu_w)^0.14
+  m_monofasico: null
+
+# --- Producto phi_c * phi_v, ec. 9-17 ---------------------------------------
+# ANCLADO el 18/09/2026 sobre la conductancia global del punto de selección, una
+# vez fijado beta con la pérdida de carga. Es el cociente entre el coeficiente
+# del lado de refrigerante que la ficha implica y la película de Nusselt sin
+# corregir, y es la magnitud que la ec. 9-17 necesita.
+#
+# A DIFERENCIA DE BETA, NO ES ROBUSTO. Su banda la domina el factor de
+# alargamiento, que sigue estimado, y el convenio de área:
+#   Phi 1.10 -> 1.78     Phi 1.20 -> 1.36     Phi 1.30 -> 1.12
+#   área desarrollada 1.54   |   área proyectada 2.37
+# El número debe viajar SIEMPRE con el Phi y el convenio con que se obtuvo.
+producto_phi_c_phi_v:
+  valor: 1.537
+  procedencia: ANCLADO_sobre_conductancia_global
+  phi_adoptado: 1.15
+  convenio_area: developed
+  banda: [1.12, 2.06]
+  reparto_resistencias:
+    agua: 0.586
+    pared: 0.096
+    refrigerante: 0.317
+
+# --- Lo que la documentación del 18/09/2026 NO trae, y por qué ---
+#
+# ÁNGULO DE CORRUGACIÓN. Ninguno de los cuatro documentos lo publica. Lo que sí
+# aportan es la designación de canal —"1*14H / 1*15H"—, que dice que las dos
+# corrientes van por canales H, de alta transferencia, y descarta tanto la placa
+# L como los paquetes mixtos. Acota el ángulo al extremo alto de la gama, pero
+# no lo fija. Sigue siendo el dato a pedir al configurador.
+#
+# FACTOR DE ALARGAMIENTO. Tampoco. Y no puede deducirse del área declarada,
+# porque las dos unidades no se reconcilian bajo una misma lectura: el área
+# proyectada reconstruida del 27-30H, 28 x 0.111 x 0.250 = 0.777 m2, EXCEDE los
+# 0.7 m2 declarados en un 11 %, mientras que la del 16-10H, 8 x 0.074 x 0.172 =
+# 0.1018 m2, queda a solo +2.4 % de los 0.0995 declarados. O el largo efectivo
+# de placa del 27 no son los 250 mm entre puertos, o el ancho efectivo no son
+# los 111 mm de la envolvente. Sin el plano de la placa no se cierra.
+#
+# phi_c, phi_v, C y m. No son datos de fabricante y nunca lo serán: son
+# coeficientes de correlación. Pero el punto de selección del 27-30H abre la vía
+# de identificarlos, que hasta ahora no existía. Ver el apartado 11 del plan.

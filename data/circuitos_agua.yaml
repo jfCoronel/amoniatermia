@@ -1,0 +1,15 @@
+# Circuitos secundarios de agua: condiciones de contorno de diseño.
+#
+# DECISIÓN DEL AUTOR, 01/10/2026: un único caudal nominal en el circuito de
+# climatización para los cuatro modos que lo usan (M-1 a M-4). El circuito de
+# fancoils tiene una sola bomba y su caudal no depende del modo. Se adopta el
+# de frío, 0.45 kg/s, que en el punto de diseño de M-1 da la condición W12/7.
+# Sustituye a los 0.35 kg/s (M-3) y 0.5 kg/s (M-4) que los cuadernos fijaban
+# por su cuenta, y deja sin objeto la subcampaña de M-3 con el caudal de M-4
+# (decisión 3 del 01/10/2026).
+#
+# El caudal del primario de ACS NO es dato: es incógnita del lazo externo en
+# M-1, M-3 y M-5 (residuo R5).
+climatizacion:
+  caudal_kg_s: 0.45
+  procedencia: "decisión del autor, 01/10/2026"

@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amoniatermia"
+version = "0.1.0"
+description = "Modelo de simulacion de bomba de calor reversible de R-717 de baja carga"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Ignacio García Sánchez"},
+    {name = "Juan Francisco Coronel Toro"},
+]
+readme = "README.md"
+dependencies = [
+    "CoolProp==8.0.0",
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "pandas>=2.1",
+    "PyYAML>=6.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov",
+    "jupytext",
+    "papermill",
+    "matplotlib",
+    "jupyterlab",
+    "ipykernel",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

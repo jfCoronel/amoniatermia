@@ -1,0 +1,16 @@
+# Referencia de mercado (H5, opción C; docs/REFERENCIA_MERCADO.md). Descargado el 02/10/2026
+# con permiso del autor.
+fuente:
+  nombre: hplib, base de datos de bombas de calor extraída del Heat Pump Keymark
+  autores: Tjaden, T.; Hoops, F.; Rösken, M. (FZJ-IEK3-VSA)
+  doi: 10.5281/zenodo.5521597
+  licencia_datos: CC BY 4.0
+  url: https://raw.githubusercontent.com/FZJ-IEK3-VSA/hplib/main/hplib/hplib_database.csv
+  commit_fichero: d932c52bc5f8b48995ad605e5bcdc228d94858f9   # "Update October 2024", 06/10/2024
+  sha256: 4e07619b153f11bde611451dca4eb736813388fd47687743fe44349401987f6e
+  descargado: 2026-10-02
+limitaciones:
+  - Datos del Keymark a octubre de 2024; no recoge certificaciones posteriores.
+  - No distingue monobloc de split ni declara la reversibilidad; el SEER es opcional en el Keymark.
+  - Sin P_designc; EER_c_ref es el del punto A de EN 14825 (35 °C), no el ensayo A35W7 de EN 14511.
+  - SCOP a 55 °C solo vía η_s (SCOP = (η_s + 3)·2.5/100).

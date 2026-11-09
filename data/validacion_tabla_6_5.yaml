@@ -1,0 +1,346 @@
+# Plan de verificación y validación. Capítulo 6, §6.7, tablas 6.5 y 6.2.
+# Fuente vigente: docs/Capitulos_pdf/Cap_7_Metodologia_v3.pdf (24/09/2026).
+# Se escribió sobre el borrador v1 del 2/09/2026, aportado el 21/09/2026.
+#
+# LO QUE CAMBIA CON LA v3 (24/09/2026)
+# ------------------------------------
+# - El capítulo FIJA ya los criterios que antes eran sugerencia: N1 (5 % en
+#   caudal y 8 % en potencia, ahora como desviación MÁXIMA y no media), N3
+#   (±10 % en COP, ±15 % en potencia), banda de paridad ±10 %, independencia de
+#   discretización 1 % y cierre de balances 10⁻³ (§6.7.1). El 10⁻³ era la
+#   decisión del repositorio: el capítulo la hace suya y la divergencia se
+#   cierra.
+# - N2 y N4 siguen sin fijar, ahora declarados en la propia tabla: «el capítulo
+#   no sugiere valor y las fuentes disponibles están comprometidas» y «no se
+#   dispone hoy de fuente utilizable».
+# - El criterio de la temperatura de descarga en N1 lo fija el capítulo 10.
+# - Zajacs et al. (2017) sale de la tabla 6.5.
+# - La numeración cambia: el antiguo §7.7.3 (validación multinivel) es el
+#   §6.7.4, y el antiguo §7.7.4 (métricas) es el §6.7.4. El §6.7.3 nuevo separa
+#   convergencia y validez.
+#
+# La historia de abajo se conserva porque fecha las decisiones.
+#
+# POR QUÉ ESTE FICHERO EXISTE ANTES QUE LOS CASOS
+# -----------------------------------------------
+# El propio capítulo lo dice en sus notas de revisión: «los criterios de
+# aceptación de la tabla 6.5 deben fijarse antes de ejecutar la validación, no
+# después de ver los resultados. Fijarlos a posteriori es una debilidad
+# metodológica grave y detectable». Lo que se fecha en el historial de git es la
+# DECISIÓN, no el resultado.
+#
+# EL ESTADO REAL DE LOS UMBRALES
+# ------------------------------
+# No es que el capítulo los tenga y aquí falten: **el capítulo tampoco los
+# tiene**. Están marcados «[…]» en la propia tabla 6.5, y la cabecera del
+# borrador advierte de que «los espacios marcados […] requieren fijar un valor
+# antes de cerrar el capítulo». Las notas de revisión cuentan trece.
+#
+# Lo que el capítulo sí ofrece son SUGERENCIAS DE PARTIDA, recogidas abajo en
+# `sugerido_cap_7`.
+#
+# DECISIÓN DEL AUTOR, 21/09/2026: se ADOPTAN esas sugerencias como criterios de
+# aceptación allí donde el capítulo las da —N1, N3, banda de paridad e
+# independencia de discretización—. La razón de tomarla hoy y no más adelante
+# es la que el propio capítulo expone: fechada ahora, queda tomada ANTES de que
+# exista ningún resultado de validación que pueda condicionarla. Cada criterio
+# adoptado lleva `procedencia: adoptado_de_la_sugerencia_del_cap_7`.
+#
+# N2 y N4 SIGUEN PENDIENTES porque el capítulo no sugiere valor para ellos.
+# Quedan a `null` y pedirlos falla, que es lo correcto.
+
+# --- Métricas del §6.7.4 ------------------------------------------------------
+# «Las desviaciones se cuantifican mediante el error relativo medio, el error
+# relativo absoluto medio, la raíz del error cuadrático medio y el porcentaje de
+# puntos contenidos dentro de una banda de ±[…] %. Se representan además los
+# diagramas de paridad entre valores predichos y valores de referencia.»
+metricas:
+  - error_relativo_medio
+  - error_absoluto_medio
+  - rmse
+  - fraccion_dentro_de_banda
+banda_paridad:
+  valor: 0.10                  # FIJADO en el §6.7.4 de la v3
+  sugerido_cap_7: 0.10         # «banda de paridad, ±10 %» (notas de la v1)
+  procedencia: fijado_en_el_cap_7_v3  # antes: adoptado_de_la_sugerencia_del_cap_7
+
+# --- Tabla 6.5: niveles de validación -----------------------------------------
+# CINCO niveles, y no coinciden con los tres de la §9.1.2: N1 y N2 son de
+# componente, N3 de sistema, N4 de subsistema y N5 de coherencia global.
+niveles:
+
+  N1:
+    nombre: Componente — compresor
+    fuente: Datos de prestaciones publicados por el fabricante.
+    magnitudes: [caudal_masico, potencia_al_eje, temperatura_de_descarga]
+    criterio: >
+      Desviación máxima de 5 % en caudal y 8 % en potencia, sobre el dominio
+      de T₀ y T_k de trabajo. La temperatura de descarga carece de criterio
+      propio.
+    # v1: «Desviación media ≤ [...] %». La v3 pasa a desviación MÁXIMA.
+    umbral:                    # ADOPTADO el 21/09/2026; FIJADO en la v3
+      caudal: 0.05
+      potencia: 0.08
+      temperatura_descarga_K: 5.0   # DECISIÓN DEL AUTOR, 29/09/2026 (antes de ejecutar)
+    estadistico: desviacion_maxima
+    # DECISIÓN DEL AUTOR, 29/09/2026, fijada ANTES de ejecutar la validación
+    # (§6.7.3): validación CRUZADA por grupos de temperatura de condensación. Se
+    # deja fuera cada T_k del catálogo por turno, se identifica con el resto con
+    # el mismo protocolo (multiarranque, sin el arranque que ya vio los 46
+    # puntos) y se predice el grupo excluido. El criterio se aplica a los grupos
+    # INTERIORES; los extremos (15 y 50 °C) se publican como extrapolación.
+    esquema: grupos_Tk
+    grupos_extremos_Tk_C: [15, 50]
+    # 29/09/2026 (tarde): el ensayo de reidentificar con los puntos VAP,
+    # validado por grupos de T0, NO cumplía N1 (7 de 10 grupos interiores) y el
+    # autor lo descartó. Los puntos VAP son validación independiente del juego
+    # del 24/09/2026 (`validation.compressor_vap`).
+    procedencia: adoptado_de_la_sugerencia_del_cap_7
+    sugerido_cap_7:
+      caudal: 0.05             # «validación de compresor, 5 % en caudal»
+      potencia: 0.08           # «y 8 % en potencia»
+    # El capítulo lista tres magnitudes para N1 y sugiere dos tolerancias. La
+    # temperatura de descarga se queda SIN criterio propio, y no es menor:
+    # de ella depende H3, y la fase B ya abrió una discrepancia de 18 K entre
+    # los 140.4 °C de la revisión previa y los 122.2 del catálogo. Anotado.
+    # La v30 la cierra: el juego adoptado da ±3.66 K (tabla 9.9).
+    sin_criterio: []               # la descarga tiene criterio desde el 29/09/2026
+    # v3, notas de revisión: el criterio de la descarga «debe cerrarse en el
+    # capítulo 10 con la desviación medida que el apartado 9.6.7 publica»
+    # (±3.66 K, rmse 1.74 K). REPORTADO, sin decidir: esa desviación está
+    # medida sobre los MISMOS 46 puntos con que se identificó el compresor, de
+    # modo que un criterio igual a ella se cumple por construcción, y el
+    # §6.3.1 dice que una fuente empleada para determinar parámetros queda
+    # consumida para contrastarlos. La objeción alcanza a todo N1, no solo a la
+    # descarga. Ver docs/historico/PENDIENTES.md.
+
+  N2:
+    nombre: Componente — intercambiadores
+    fuente: Fichas de selección del fabricante y correlaciones publicadas.
+    magnitudes: [coeficiente_global, potencia_intercambiada, perdida_de_carga]
+    criterio: >
+      Sin fijar: el capítulo no sugiere valor y las fuentes disponibles están
+      comprometidas.
+    umbral: null
+    sugerido_cap_7: null       # el capítulo no sugiere valor para N2
+
+  N3:
+    nombre: Sistema — literatura
+    fuente: >
+      Trabajos publicados sobre bombas de calor de amoníaco de pequeña
+      capacidad.
+    # v1: «Monfared y Palm (2011, 2012); Zajacs et al. (2017)».
+    magnitudes: [COP, potencia_calorifica]
+    criterio: Desviación de ±10 % en COP y ±15 % en potencia.
+    umbral:                    # ADOPTADO el 21/09/2026; FIJADO en la v3
+      COP: 0.10
+      potencia: 0.15
+    procedencia: adoptado_de_la_sugerencia_del_cap_7
+    sugerido_cap_7:
+      COP: 0.10                # «validación de sistema, ±10 % en COP»
+      potencia: 0.15           # «y ±15 % en potencia»
+
+  N4:
+    nombre: Subsistema — recuperación de ACS
+    fuente: Trabajos publicados sobre recuperación de calor de descarga.
+    # v1: «Palm (2008); Monfared y Palm (2011)».
+    magnitudes: [potencia_recuperada_desrecalentador, temperatura_ACS]
+    criterio: "Sin fijar: no se dispone hoy de fuente utilizable."
+    umbral: null
+    sugerido_cap_7: null       # el capítulo no sugiere valor para N4
+
+  N5:
+    nombre: Coherencia global
+    fuente: Primer y segundo principio.
+    magnitudes: [cierre_de_balances, generacion_de_entropia]
+    # ÚNICO nivel cuyo criterio NO lleva «[…]»: está fijado en el capítulo.
+    criterio: Cumplimiento estricto, con la tolerancia de 10⁻³ del apartado 6.7.1.
+    umbral: estricto
+    procedencia: fijado_en_la_tabla_7_5
+
+# --- §6.7.1: verificación -----------------------------------------------------
+# Los cinco grupos que el apartado enumera, con el test que los materializa.
+# Los tres últimos del grupo de tendencias NO existían y se añaden con esta
+# fase: el capítulo los exige y el §9.12.5 no los recogía.
+verificacion_6_7_1:
+
+  - id: casos_de_solucion_conocida
+    enunciado: >
+      Procesos isoentrópicos, intercambiadores monofásicos con solución
+      analítica y ciclos ideales de referencia.
+    test: tests/test_verification.py
+    umbral: null
+
+  - id: independencia_de_discretizacion
+    enunciado: >
+      Incrementar el número de volúmenes hasta que la variación de las
+      magnitudes de salida sea inferior al [...] %, adoptando ese número como
+      discretización de trabajo.
+    test: tests/test_plate_hx.py::test_discretisation_independence
+    umbral: 0.01               # ADOPTADO el 21/09/2026; FIJADO en la v3
+    procedencia: adoptado_de_la_sugerencia_del_cap_7
+    sugerido_cap_7: 0.01       # «independencia de discretización, 1 %»
+    fijado_cap_7: 0.01         # v3, §6.7.1: «inferior al 1 %»
+    # El modelo llega a 2e-5 desde el seguimiento de la frontera de fase, tres
+    # órdenes por debajo: el criterio no acota nada, y así debe declararse.
+
+  - id: cierre_de_balances
+    enunciado: >
+      Cierre de los balances de masa y energía en cada componente y en el
+      conjunto, con tolerancia inferior al [...] %.
+    test: tests/test_circuit.py
+    # DECISIÓN DEL AUTOR, 21/09/2026: se MANTIENE el 1e-3 que `circuit.py` ya
+    # aplicaba, cinco veces más estricto que el 0.5 % que sugiere el capítulo.
+    # Ser más estricto que el criterio declarado no es una debilidad
+    # metodológica; relajarlo sí lo sería, porque el efecto inmediato es que
+    # los modos M-1 a M-5 —balance de componente en 1.5e-3— pasarían de NO
+    # VÁLIDOS a válidos sin que su residuo haya mejorado en nada.
+    #
+    # La divergencia se conserva REPORTADA y no se borra:
+    # `divergencias_con_el_capitulo()` la saca, y el capítulo 10 debe decir que
+    # el modelo se juzga con un criterio más exigente que el declarado.
+    #
+    # CERRADA el 24/09/2026: la v3 del capítulo 6 fija 10⁻³ en el §6.7.1 y
+    # justifica por qué es más estricto que el 0.5 % sugerido en la v1. Deja de
+    # ser divergencia; `divergencias_con_el_capitulo()` compara ahora contra
+    # `fijado_cap_7` y no contra la sugerencia.
+    umbral: 1.0e-3
+    procedencia: adoptado_mas_estricto_que_la_sugerencia
+    sugerido_cap_7: 0.005      # «cierre de balances, 0,5 %» (notas de la v1)
+    fijado_cap_7: 1.0e-3       # v3, §6.7.1: «tolerancia de 10⁻³ en valor relativo»
+
+  - id: positividad_de_la_generacion_de_entropia
+    enunciado: Filtro de resultados termodinámicamente inadmisibles.
+    test: tests/test_circuit.py::test_generacion_de_entropia_positiva
+    umbral: estricto
+    procedencia: no_lleva_umbral_en_el_capitulo
+
+  - id: tendencia_COP_con_temperatura_de_condensacion
+    enunciado: El COP debe disminuir al aumentar la temperatura de condensación.
+    test: tests/test_tendencias.py::test_el_COP_cae_al_subir_la_condensacion
+    umbral: estricto
+
+  - id: tendencia_subenfriamiento_sobre_produccion_frigorifica
+    enunciado: >
+      El subenfriamiento debe aumentar la producción frigorífica específica.
+    test: tests/test_tendencias.py::test_el_subenfriamiento_sube_la_produccion_especifica
+    umbral: estricto
+
+  - id: tendencia_relacion_de_compresion_sobre_descarga
+    enunciado: >
+      La temperatura de descarga debe aumentar con la relación de compresión.
+    test: tests/test_tendencias.py::test_la_descarga_sube_con_la_relacion_de_compresion
+    umbral: estricto
+
+# --- Tolerancias ADOPTADAS por el repositorio ---------------------------------
+# No son la tabla 6.5. Son decisiones ya en vigor, y se recogen aquí para que
+# dejen de estar repartidas por los tests y para poder contrastarlas contra lo
+# que el capítulo sugiere.
+tolerancias_adoptadas:
+  magnitud_calculada: 0.02      # `TOL` de tests/test_referencia.py
+  magnitud_geometrica: 0.005    # `TOL_GEO`
+  residuo_relativo: 1.0e-6      # §9.4.4 y §6.6.6; este sí está declarado
+  cierre_de_balances: 1.0e-3    # el que fija la v3 del cap. 6 (§6.7.1)
+
+# --- Fuentes de contraste -----------------------------------------------------
+fuentes:
+
+  monfared_palm_2011:
+    tipo: experimental
+    niveles: [N3, N4]
+    descripcion: >
+      Prototipo experimental de bomba de calor de NH3 de baja carga (KTH), con
+      desrecalentador más condensador y válvula electrónica con control de
+      recalentamiento.
+    estado: utilizable_con_reservas
+    reserva: >
+      Las fuentes abiertas solo dan especificaciones agregadas. El §6.7.3 prevé
+      el caso: «cuando la información geométrica publicada sea incompleta, los
+      parámetros no disponibles se estiman dentro de un rango razonable y el
+      resultado se presenta como BANDA DE PREDICCIÓN en lugar de como valor
+      único, indicando explícitamente qué parámetros han debido estimarse».
+    datos: null
+
+  monfared_palm_2012:
+    tipo: experimental
+    niveles: [N3]
+    descripcion: Mismo grupo, compresor de velocidad variable. Relevante para H6.
+    estado: utilizable_con_reservas
+    reserva: idéntica a la de 2011
+    datos: null
+
+  palm_2008:
+    tipo: experimental
+    niveles: [N4]
+    descripcion: Fuente de contraste de la recuperación de ACS.
+    estado: sin_localizar
+    reserva: >
+      No aparece en el material de trabajo del repositorio. Es la única fuente
+      de N4 junto con Monfared y Palm (2011).
+    datos: null
+
+  zajacs_2017:
+    tipo: simulacion
+    # RETIRADA de la tabla 6.5 en la v3 del capítulo 6: ya no figura en N3.
+    niveles: []
+    descripcion: Estudio de diseño por simulación con EES.
+    estado: NO_ES_FUENTE_DE_VALIDACION
+    reserva: >
+      La tabla 6.5 lo lista en N3 junto a las fuentes experimentales, y
+      `docs/historico/PENDIENTES.md` pide reclasificarlo: no es un trabajo experimental,
+      de modo que compararlo sería comparar simulación contra simulación. La
+      contradicción es del capítulo 6 consigo mismo —el §6.7.3 dice validar
+      «frente a fuentes mutuamente independientes»— y se declara aquí para que
+      la reclasificación quede registrada y no se cuele por inercia.
+    datos: null
+
+  # Fuentes de fabricante. Son las de N1 y N2, y el propio §6.3.1 acota su
+  # estatuto: documentación de fabricantes «empleada exclusivamente como fuente
+  # de datos de prestaciones y geometría, nunca como fuente de conocimiento
+  # científico».
+  catalogo_bock_f2:
+    tipo: catalogo_fabricante
+    niveles: [N1]
+    descripcion: 46 puntos de catálogo del compresor Bock F2 NH3.
+    estado: disponible
+    datos: data/compresor_bock_f2_catalogo.csv
+  ficha_frimetal_cbn21:
+    tipo: ficha_seleccion
+    niveles: [N2]
+    descripcion: Punto único de selección de la batería, en condensación.
+    estado: disponible_punto_unico
+    reserva: >
+      REPORTADO el 24/09/2026, sin decidir. La correlación del lado de aire se
+      ancló sobre este mismo punto (§9.7.3: «reproduce exactamente el punto de
+      ficha por construcción»), de modo que por la regla del §6.3.1 queda
+      consumida para contrastar el lado de aire, igual que la del 27-30H. El
+      §6.7.4 de la v3 cuenta una sola fuente consumida y el §9.14 nombra solo
+      la ficha de placas. Decide el autor si el estado pasa a
+      consumido_como_anclaje.
+    datos: data/bateria_frimetal_cbn21.yaml
+  ficha_frimetal_cbn21_evaporador:
+    tipo: ficha_seleccion
+    niveles: [N2]
+    descripcion: >
+      Punto único de selección de la batería como evaporador a bomba
+      (recirculación 3, título de salida 1/3), superficie seca, 26/03/2026.
+    estado: disponible_punto_unico
+    uso: >
+      DECISIÓN DEL AUTOR, 28/09/2026: fuente de VALIDACIÓN, no de anclaje. No
+      interviene en ningún parámetro del modelo. Con Gungor-Winterton el modelo
+      da +4.2 % en capacidad (docs/cifras_ejemplo_M1.md, cuaderno 04);
+      contraste fijado en tests/test_referencia.py::TestValidacionBateriaEvaporador.
+    reserva: >
+      Es una salida del programa de selección del fabricante, no una medida:
+      el mismo estatuto que las otras dos fichas. No cubre título alto, tramo
+      recalentado ni superficie húmeda.
+    datos: data/bateria_frimetal_cbn21.yaml
+  ficha_alfanova_27_30h:
+    tipo: ficha_seleccion
+    niveles: [N2]
+    descripcion: >
+      Punto único de selección del condensador de placas. Ya se ha empleado para
+      ANCLAR el submodelo, de modo que no puede volver a usarse como contraste
+      independiente: el modelo lo reproduce por construcción.
+    estado: consumido_como_anclaje
+    datos: data/placas_alfanova.yaml

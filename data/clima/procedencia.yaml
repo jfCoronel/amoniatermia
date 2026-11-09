@@ -1,0 +1,25 @@
+# Climas de referencia del CTE DB-HE para el capítulo 12 (decisión del autor, 02/10/2026:
+# climas de UNE-EN 14825 más Sevilla, Madrid y Burgos).
+fuente:
+  documento: "DB-HE .MET climas (CTEdatosMET_20140418.zip)"
+  url: https://www.codigotecnico.org/pdf/Documentos/HE/CTEdatosMET_20140418.zip
+  pagina: https://www.codigotecnico.org/DocumentosCTE/AhorroEnergia.html
+  sha256_zip: e62898df2d7ed4cd73ab1b8fe2df61719dab8322ea4e2df1d1f3812ccfad8a76
+  descargado: 2026-10-02
+  formato: >
+    "Climas de referencia" del DB-HE, v2.0 (02/2017), §3.1: dos líneas de cabecera y 8760
+    líneas horarias (mes, día, hora, T seca °C, T de cielo °C, directa y difusa horizontal
+    W/m2, humedad específica kg/kg, HR %, viento m/s, dirección, azimut y cénit). Hora solar.
+  url_formato: https://www.codigotecnico.org/pdf/Documentos/HE/20170202-DOC-DB-HE-0-Climas%20de%20referencia.pdf
+  sha256_formato: 95b6610eee2860aca0ebc4c29dfa4b30fc74b3821f79d7771dc6f24e1956c55d
+# No son registros de cada ciudad sino el clima de referencia de su zona climática. La zona
+# de cada capital sale de la tabla a-Anejo B del DB-HE (provincia y altitud de la capital).
+ciudades:
+  Sevilla: {zona: B4, fichero: zonaB4.met, altitud_m: 11}
+  Madrid: {zona: D3, fichero: zonaD3.met, altitud_m: 655}
+  Burgos: {zona: E1, fichero: zonaE1.met, altitud_m: 929}
+# Temperatura diaria media mensual del agua fría de red, °C (DB-HE, tabla a-Anejo G), para el ACS.
+agua_red_C:
+  Sevilla: [11, 11, 13, 14, 16, 19, 21, 21, 20, 16, 13, 11]
+  Madrid: [8, 8, 10, 12, 14, 17, 20, 19, 17, 13, 10, 8]
+  Burgos: [5, 6, 7, 9, 11, 13, 16, 16, 14, 11, 7, 6]
